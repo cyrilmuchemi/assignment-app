@@ -1,7 +1,36 @@
 <script setup>
 import { ref } from 'vue'
 import TodoList from './TodoList.vue'
-const todo = ref('')
+const todoText = ref('')
+const todos = ref([
+  { id: 1, label: 'Build a rabbit cage', complete: false },
+  { id: 2, label: ' Build an ecommerce website', complete: false },
+  { id: 3, label: 'Be jacked as ***', complete: true },
+  { id: 4, label: 'Own physical business', complete: true },
+  { id: 5, label: 'Keep going', complete: false },
+])
+
+const addTodo = () => {
+  if (todoText.value.trim()) {
+    todos.value.push({
+      id: todos.value.length + 1,
+      label: todoText.value,
+      complete: false,
+    })
+    todoText.value = ''
+  }
+}
+
+const removeTodo = (todoId) => {
+  todos.value = todos.value.filter((todo) => todo.id !== todoId)
+}
+
+const toggleComplete = (todoId) => {
+  const todo = todos.value.find((todo) => todo.id === todoId)
+  if (todo) {
+    todo.complete = !todo.complete
+  }
+}
 </script>
 
 <template>
@@ -14,13 +43,20 @@ const todo = ref('')
         </nav>
       </header>
       <div>
-        <label>
-          <input id="todo-input" v-model="todo" placeholder="Create a new todo.." type="text" />
-        </label>
+        <form @submit.prevent="addTodo">
+          <label>
+            <input
+              id="todo-input"
+              v-model="todoText"
+              placeholder="Create a new todo.."
+              type="text"
+            />
+          </label>
+        </form>
       </div>
     </section>
     <section id="list">
-      <TodoList />
+      <TodoList :todos="todos" @toggle-complete="toggleComplete" @remove-todo="removeTodo" />
     </section>
     <section id="footer"></section>
   </main>

@@ -1,30 +1,39 @@
 <script setup>
-import { ref } from 'vue'
-const todos = ref([
-  { id: 1, label: 'Build a rabbit cage', complete: false },
-  { id: 2, label: ' Build an ecommerce website', complete: false },
-  { id: 3, label: 'Be jacked as ***', complete: true },
-  { id: 4, label: 'Own physical business', complete: true },
-  { id: 5, label: 'Keep going', complete: false },
-])
-const toggleComplete = (todo) => {
-  todo.complete = !todo.complete
+import { defineProps, defineEmits } from 'vue'
+const props = defineProps({
+  todo: Object,
+})
+const emit = defineEmits(['toggle-complete', 'remove-todo'])
+const toggleComplete = () => {
+  emit('toggle-complete', props.todo.id)
+}
+const removeTodo = () => {
+  emit('remove-todo', props.todo.id)
 }
 </script>
 <template>
   <div class="todos">
     <ul>
-      <li v-for="todo in todos" :key="todo.id" :class="{ strikeout: todo.complete }">
+      <li :class="{ strikeout: todo.complete }">
         <div class="task">
           <div class="checkbox">
             <label>
-              <input v-model="todo.complete" type="checkbox" @click="toggleComplete(todo)" />
+              <input type="checkbox" :checked="todo.complete" @change="toggleComplete" />
               <span></span>
             </label>
           </div>
           <div class="task-name">
             <p>{{ todo.label }}</p>
           </div>
+          <button class="closingBtn" @click="removeTodo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+              <path
+                fill="#494C6B"
+                fill-rule="evenodd"
+                d="M16.97 0l.708.707L9.546 8.84l8.132 8.132-.707.707-8.132-8.132-8.132 8.132L0 16.97l8.132-8.132L0 .707.707 0 8.84 8.132 16.971 0z"
+              />
+            </svg>
+          </button>
         </div>
         <diV class="divider"></diV>
       </li>
@@ -38,6 +47,7 @@ label {
 span {
   width: 26px;
   height: 26px;
+  cursor: pointer;
   border: 3px solid #8888;
   display: inline-block;
   border-radius: 50%;
@@ -75,7 +85,8 @@ input {
 .task {
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 ul {
@@ -88,5 +99,10 @@ ul {
 
 .strikeout {
   text-decoration: line-through;
+}
+
+.closingBtn {
+  border: none;
+  cursor: pointer;
 }
 </style>

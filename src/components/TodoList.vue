@@ -1,10 +1,26 @@
 <script setup>
 import TodoItem from './TodoItem.vue'
+defineProps({
+  todos: Array,
+})
+const emit = defineEmits(['toggle-complete', 'remove-todo'])
+const handleToggleComplete = (todoId) => {
+  emit('toggle-complete', todoId)
+}
+const handleRemoveTodo = (todoId) => {
+  emit('remove-todo', todoId)
+}
 </script>
 <template>
   <div id="todo-list">
     <div>
-      <TodoItem />
+      <TodoItem
+        v-for="todo in todos"
+        :key="todo.id"
+        :todo="todo"
+        @toggle-complete="handleToggleComplete"
+        @remove-todo="handleRemoveTodo"
+      />
     </div>
   </div>
 </template>
