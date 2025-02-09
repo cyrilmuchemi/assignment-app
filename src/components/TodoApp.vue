@@ -1,18 +1,28 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import TodoList from './TodoList.vue'
+const loadTodos = () => {
+  const savedTodos = localStorage.getItem('todos')
+  return savedTodos
+    ? JSON.parse(savedTodos).sort((a, b) => b.id - a.id)
+    : [{ id: 1, label: 'Add a new todo', complete: false }]
+}
+
 const todoText = ref('')
-const todos = ref([
-  { id: 1, label: 'Build a rabbit cage', complete: false },
-  { id: 2, label: ' Build an ecommerce website', complete: false },
-  { id: 3, label: 'Be jacked as ***', complete: true },
-  { id: 4, label: 'Own physical business', complete: true },
-  { id: 5, label: 'Keep going', complete: false },
-])
+const todos = ref(loadTodos)
+
+watch(
+  todos,
+  (newTodos) => {
+    todos.value.sort((a, b) => b.id - a.id)
+    localStorage.setItem('todos', JSON.stringify(newTodos))
+  },
+  { deep: true },
+)
 
 const addTodo = () => {
   if (todoText.value.trim()) {
-    todos.value.push({
+    todos.value.unshift({
       id: todos.value.length + 1,
       label: todoText.value,
       complete: false,
@@ -31,6 +41,10 @@ const toggleComplete = (todoId) => {
     todo.complete = !todo.complete
   }
 }
+
+onMounted(() => {
+  todos.value = loadTodos()
+})
 </script>
 
 <template>

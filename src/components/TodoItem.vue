@@ -82,13 +82,6 @@ input {
   background-color: gray;
 }
 
-.task {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
 ul {
   list-style: none;
 }
@@ -101,8 +94,36 @@ ul {
   text-decoration: line-through;
 }
 
+.task {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.task:hover {
+  background: #f5f5f5;
+}
+
+.task-name {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  flex-grow: 1;
+}
+
 .closingBtn {
+  background: none;
   border: none;
   cursor: pointer;
+  font-size: 18px;
+  margin-right: 20px;
+  display: none;
+}
+
+.task:hover .closingBtn {
+  display: flex;
 }
 </style>
