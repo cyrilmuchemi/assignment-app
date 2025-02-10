@@ -1,13 +1,24 @@
 <script setup>
+import { ref, watch } from 'vue'
 import TodoApp from './components/TodoApp.vue'
+const darkMode = ref(false)
+watch(darkMode, (newVal) => {
+  document.body.classList.toggle('dark-mode', newVal)
+})
+const toggleTheme = () => {
+  darkMode.value = !darkMode.value
+}
 </script>
 
 <template>
-  <header>
-    <div>
-      <TodoApp />
-    </div>
-  </header>
+  <div>
+    <TodoApp :dark-mode="darkMode" @toggle-theme="toggleTheme" />
+  </div>
 </template>
 
-<style scoped></style>
+<style>
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+</style>

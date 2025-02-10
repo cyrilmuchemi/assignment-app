@@ -1,6 +1,15 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, computed, onMounted } from 'vue'
 import TodoList from './TodoList.vue'
+import moonIcon from '@/assets/images/icon-moon.svg'
+import sunIcon from '@/assets/images/icon-sun.svg'
+import lightHero from '@/assets/images/bg-desktop-light.jpg'
+import darkHero from '@/assets/images/bg-desktop-dark.jpg'
+
+const props = defineProps({
+  darkMode: Boolean,
+})
+
 const loadTodos = () => {
   const savedTodos = localStorage.getItem('todos')
   return savedTodos
@@ -9,6 +18,7 @@ const loadTodos = () => {
 }
 
 const todoText = ref('')
+
 const todos = ref(loadTodos)
 
 watch(
@@ -45,15 +55,21 @@ const toggleComplete = (todoId) => {
 onMounted(() => {
   todos.value = loadTodos()
 })
+
+const heroStyle = computed(() => ({
+  backgroundImage: `url(${props.darkMode ? darkHero : lightHero})`,
+}))
 </script>
 
 <template>
   <main id="body">
-    <section id="hero">
+    <section id="hero" :style="heroStyle">
       <header id="header">
         <nav id="navigation">
           <div><h1>TODO</h1></div>
-          <div><img id="hero-img" src="../assets/images/icon-moon.svg" /></div>
+          <div class="toggle-img" @click="$emit('toggle-theme')">
+            <img :src="darkMode ? sunIcon : moonIcon" />
+          </div>
         </nav>
       </header>
       <div>
@@ -70,7 +86,12 @@ onMounted(() => {
       </div>
     </section>
     <section id="list">
-      <TodoList :todos="todos" @toggle-complete="toggleComplete" @remove-todo="removeTodo" />
+      <TodoList
+        :todos="todos"
+        :dark-mode="darkMode"
+        @toggle-complete="toggleComplete"
+        @remove-todo="removeTodo"
+      />
     </section>
     <section id="footer"></section>
   </main>
@@ -89,7 +110,6 @@ onMounted(() => {
 }
 
 #hero {
-  background-image: url('../assets/images/bg-desktop-light.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   height: 50vh;
@@ -117,5 +137,9 @@ h1 {
 
 input::placeholder {
   padding-left: 30px;
+}
+
+.toggle-img {
+  cursor: pointer;
 }
 </style>
