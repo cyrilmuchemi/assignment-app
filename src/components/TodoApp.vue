@@ -73,10 +73,11 @@ const heroStyle = computed(() => ({
         </nav>
       </header>
       <div>
-        <form @submit.prevent="addTodo">
-          <label>
+        <form @submit.prevent="addTodo" class="todo-form">
+          <label class="todo-label">
             <input
               id="todo-input"
+              :class="darkMode ? 'input-dark' : 'input-light'"
               v-model="todoText"
               placeholder="Create a new todo.."
               type="text"
@@ -132,7 +133,18 @@ h1 {
   width: 33%;
   height: 50px;
   border-radius: 8px;
+}
+
+.input-dark {
+  border: #25273d;
+  background-color: #25273d;
+  color: #fff;
+}
+
+.input-light {
   border: #fff;
+  background-color: #fff;
+  color: #000;
 }
 
 input::placeholder {
@@ -141,5 +153,9 @@ input::placeholder {
 
 .toggle-img {
   cursor: pointer;
+}
+
+.todo-form {
+  position: relative;
 }
 </style>

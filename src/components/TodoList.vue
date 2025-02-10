@@ -34,10 +34,10 @@ const handleRemoveTodo = (todoId) => {
 }
 
 .dark {
-  background-color: black;
+  background-color: #25273d;
   color: white;
-  border: 1px solid #888;
-  box-shadow: 5px 10px #888888;
+  border: 1px solid #050505;
+  box-shadow: 5px 10px #050505;
 }
 
 #todo-list {
@@ -46,14 +46,5 @@ const handleRemoveTodo = (todoId) => {
   width: 33%;
   margin-top: -100px;
   border-radius: 8px;
-  border: 1px solid #8888;
-  box-shadow: 5px 10px #888888;
-}
-
-.dark-todo-list {
-  background-color: black;
-  color: white;
-  border: 1px solid white;
-  box-shadow: 5px 10px white;
 }
 </style>

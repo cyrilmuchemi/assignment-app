@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import TodoApp from './components/TodoApp.vue'
 const darkMode = ref(false)
 watch(darkMode, (newVal) => {
@@ -8,6 +8,10 @@ watch(darkMode, (newVal) => {
 const toggleTheme = () => {
   darkMode.value = !darkMode.value
 }
+onMounted(() => {
+  const savedTheme = localStorage.getItem('darkMode')
+  darkMode.value = savedTheme === 'true'
+})
 </script>
 
 <template>
@@ -18,7 +22,7 @@ const toggleTheme = () => {
 
 <style>
 .dark-mode {
-  background-color: black;
+  background-color: #171823;
   color: white;
 }
 </style>

@@ -69,7 +69,7 @@ span {
 input {
   display: none;
   &:checked ~ span {
-    background: rgb(157, 82, 226);
+    background: linear-gradient(to right, #55ddff, #c058f3);
     &:after {
       visibility: visible;
     }
@@ -101,10 +101,6 @@ ul {
   cursor: pointer;
   width: 100%;
   transition: background 0.2s;
-}
-
-.task:hover {
-  background: #f5f5f5;
 }
 
 .task-name {
