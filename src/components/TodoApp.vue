@@ -19,7 +19,7 @@ const loadTodos = () => {
 
 const todoText = ref('')
 
-const todos = ref(loadTodos)
+const todos = ref(loadTodos())
 
 watch(
   todos,
@@ -59,6 +59,10 @@ onMounted(() => {
 const heroStyle = computed(() => ({
   backgroundImage: `url(${props.darkMode ? darkHero : lightHero})`,
 }))
+
+const clearCompleted = () => {
+  todos.value = todos.value.filter((todo) => !todo.complete)
+}
 </script>
 
 <template>
@@ -92,6 +96,7 @@ const heroStyle = computed(() => ({
         :dark-mode="darkMode"
         @toggle-complete="toggleComplete"
         @remove-todo="removeTodo"
+        @clear-completed="clearCompleted"
       />
     </section>
     <section id="footer"></section>
